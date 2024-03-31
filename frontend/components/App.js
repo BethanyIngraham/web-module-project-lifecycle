@@ -1,5 +1,6 @@
 import React from 'react'
-import axios from 'axios';
+import axios from 'axios'
+import Form from './Form'
 
 
 const URL = 'http://localhost:9000/api/todos'
@@ -87,13 +88,14 @@ export default class App extends React.Component {
            // Go over reduce method. Why this and not filter?
           } 
         </div>
-        <form onSubmit={this.handleFormSubmit}>
-          <input value={this.state.todoNameInput} onChange={this.onInputChange} type='text' placeholder='type task here'/>
-          <button type='submit'>Add Todo</button>
-        </form>
-        <button onClick={this.toggleCompletedTasks}>{this.state.displayCompletedTasks ? 'Hide' : 'Show'} Completed</button>
+       <Form
+        handleFormSubmit={this.handleFormSubmit}
+        onInputChange={this.onInputChange}
+        toggleCompletedTasks={this.toggleCompletedTasks}
+        todoNameInput={this.state.todoNameInput}
+        displayCompletedTasks={this.state.displayCompletedTasks}
+       />
      {/** TodoList component with props */}
-     {/** Form component with props */}
       </div>
     )
   }

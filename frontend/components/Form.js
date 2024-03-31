@@ -2,11 +2,25 @@ import React from 'react'
 
 export default class Form extends React.Component {
   render() {
-    return null
-    // will hold your input field and your Add Todo and Clear Completed buttons
-    // Your input field should take in user input, and allow a user to press 
-      // Enter or click on the Submit Button to add a todo to your list
-    // Once a todo is submitted, the Todo List should re-render and show the added todo
-
+    
+    return (
+    <>
+     <form onSubmit={this.props.handleFormSubmit}>
+        <input 
+        value={this.props.todoNameInput} 
+        onChange={this.props.onInputChange} 
+        type='text' 
+        placeholder='type task here'
+        />
+        <button type='submit'>Add Todo</button>
+     </form>
+     <button onClick={this.props.toggleCompletedTasks}>
+       {this.props.displayCompletedTasks ? 'Hide' : 'Show'} Completed
+     </button>
+    </>
+    )
   }
+  // Everything with a 'this' comes from props
+  // this.state is changed to this.props because it becomes stateless once moved from App to Form Component
+  // It receives everything from props now - 5 
 }
