@@ -17,49 +17,44 @@ export default class App extends React.Component {
     axios
     .get(URL)
     .then((res) => {
-      this.setState({ ...this.state, todos: res.data.data });
+      this.setState({ ...this.state, todos: res.data.data })
     })
-    .catch((err) => {
-      this.setState({ ...this.state, error: err.response.data.message });
-    })
+    .catch(this.setAxiosResponseError)
   }
 
   componentDidMount() {
-    this.getAllTodos();
+    this.getAllTodos()
    }
 
-   onInputChange = evt => {
-    const { value } = evt.target;
-    this.setState({ ...this.state, todoNameInput: value });
+  onInputChange = (evt) => {
+    const { value } = evt.target
+    this.setState({ ...this.state, todoNameInput: value })
   }
+
+  resetForm = () =>  this.setState({ ...this.state, todoNameInput: '' })
+
+  setAxiosResponseError = (err) =>  this.setState({ ...this.state, error: err.response.data.message })
 
   postATodo = () => {
     axios
     .post(URL, { name: this.state.todoNameInput })
     .then((res) => {
-      this.getAllTodos();
-      this.setState({ ...this.state, todoNameInput: '' })
+      this.getAllTodos()
+      this.resetForm()
     })
-    .catch((err) => {
-      this.setState({ ...this.state, error: err.response.data.message });
-    })
+    .catch(this.setAxiosResponseError)
   }
 
   handleFormSubmit = (evt) => {
-    evt.preventDefault();
-    this.postATodo();
+    evt.preventDefault()
+    this.postATodo()
   }
 
   toggleCompleted = () => {
-    // a todos completed status toggles from false to true and vice versa when clicked
-    // PATCH -> deals with the id of the todo
+  
   }
 
   filterOutCompletedTasks = () => {
-    /* when a todos status of completed is set to true, click the hide button and every 
-      todo that fits this category will be removed from the list. clicking the button again
-      will put them back in the list to show on the page
-    */
    
   }
 
@@ -74,10 +69,10 @@ export default class App extends React.Component {
           })}
         </div>
         <form onSubmit={this.handleFormSubmit}>
-         <input value={this.state.todoNameInput} onChange={this.onInputChange} type='text' placeholder='type task here'/>
-         <button type='submit'>Add Todo</button>
-         <button>Clear Completed</button>
-     </form>
+          <input value={this.state.todoNameInput} onChange={this.onInputChange} type='text' placeholder='type task here'/>
+          <button type='submit'>Add Todo</button>
+          <button>Clear Completed</button>
+         </form>
      {/** TodoList component with props */}
      {/** Form component with props */}
       </div>
