@@ -9,8 +9,8 @@ export default class App extends React.Component {
   state = {
       todos: [],
       error: '',
-      todoNameInput: '',
-      completed: false
+      todoNameInput: '', 
+      displayCompletedTasks: true
   }
 
   getAllTodos = () => {
@@ -31,6 +31,8 @@ export default class App extends React.Component {
     this.setState({ ...this.state, todoNameInput: value })
   }
 
+  // Keep code dry by using helper functions / variables
+
   resetForm = () =>  this.setState({ ...this.state, todoNameInput: '' })
 
   setAxiosResponseError = (err) =>  this.setState({ ...this.state, error: err.response.data.message })
@@ -48,9 +50,10 @@ export default class App extends React.Component {
   handleFormSubmit = (evt) => {
     evt.preventDefault()
     this.postATodo()
-  }
+  } 
+  // postATodo so you don't have to make a request twice?
 
-  toggleCompleted = id => () => {
+  toggleCompletedStatus = id => () => {
    axios
    .patch(`${URL}/${id}`)
    .then(res => {
@@ -60,11 +63,13 @@ export default class App extends React.Component {
     })})
    })
    .catch(this.setAxiosResponseError)
-  } // What is partial application?
+  } 
+  // What is partial application? Explain this piece of code
 
-  filterOutCompletedTasks = () => {
-   
-  }
+  toggleCompletedTasks = () => {
+   this.setState({ ...this.state, displayCompletedTasks: !this.state.displayCompletedTasks })
+  } 
+  
 
   render() {
     return (
@@ -72,15 +77,21 @@ export default class App extends React.Component {
         <div id='error'>{this.state.error}</div>
         <div id='todo'>
           <h1>Todo App:</h1>
-          {this.state.todos.map((todo) => {
-          return <div onClick={this.toggleCompleted(todo.id)} key={todo.id}>{todo.name} {todo.completed ? '✓' : ''}</div>
-          })}
+          {
+          this.state.todos.reduce((acc, todo) => {
+            if(this.state.displayCompletedTasks || !todo.completed) return acc.concat(
+              <div onClick={this.toggleCompletedStatus(todo.id)} key={todo.id}>{todo.name} {todo.completed ? '✓' : ''}</div>
+            )
+            return acc
+           }, [])
+           // Go over reduce method. Why this and not filter?
+          } 
         </div>
         <form onSubmit={this.handleFormSubmit}>
           <input value={this.state.todoNameInput} onChange={this.onInputChange} type='text' placeholder='type task here'/>
           <button type='submit'>Add Todo</button>
-         </form>
-        <button>Clear Completed</button>
+        </form>
+        <button onClick={this.toggleCompletedTasks}>{this.state.displayCompletedTasks ? 'Hide' : 'Show'} Completed</button>
      {/** TodoList component with props */}
      {/** Form component with props */}
       </div>
