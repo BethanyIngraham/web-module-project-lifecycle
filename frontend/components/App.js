@@ -88,8 +88,7 @@ export default class App extends React.Component {
         toggleCompletedTasks={this.toggleCompletedTasks}
         todoNameInput={this.state.todoNameInput}
         displayCompletedTasks={this.state.displayCompletedTasks}
-       />
-     {/** TodoList component with props */}
+       /> 
       </div>
     )
   }

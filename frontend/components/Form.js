@@ -22,5 +22,5 @@ export default class Form extends React.Component {
   }
   // Everything with a 'this' comes from props
   // this.state is changed to this.props because it becomes stateless once moved from App to Form Component
-  // It receives everything from props now - 5 
+  // It receives everything from props now 
 }

@@ -2,7 +2,12 @@ import React from 'react'
 
 export default class Todo extends React.Component {
   render() {
-    return null
-    // takes in the todo data and displays the task to the screen
+    return (
+      <div 
+        onClick={this.props.toggleCompletedStatus(this.props.todo.id)} 
+      >
+          {this.props.todo.name} {this.props.todo.completed ? '✓' : ''}
+      </div>
+    ) 
   }
 }
