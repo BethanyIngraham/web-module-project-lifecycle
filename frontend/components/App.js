@@ -50,9 +50,17 @@ export default class App extends React.Component {
     this.postATodo()
   }
 
-  toggleCompleted = () => {
-  
-  }
+  toggleCompleted = id => () => {
+   axios
+   .patch(`${URL}/${id}`)
+   .then(res => {
+    this.setState({ ...this.state, todos: this.state.todos.map((todo) => {
+      if(todo.id !== id) return todo
+      return res.data.data
+    })})
+   })
+   .catch(this.setAxiosResponseError)
+  } // What is partial application?
 
   filterOutCompletedTasks = () => {
    
@@ -65,14 +73,14 @@ export default class App extends React.Component {
         <div id='todo'>
           <h1>Todo App:</h1>
           {this.state.todos.map((todo) => {
-          return <div key={todo.id}>{todo.name}</div>
+          return <div onClick={this.toggleCompleted(todo.id)} key={todo.id}>{todo.name} {todo.completed ? '✓' : ''}</div>
           })}
         </div>
         <form onSubmit={this.handleFormSubmit}>
           <input value={this.state.todoNameInput} onChange={this.onInputChange} type='text' placeholder='type task here'/>
           <button type='submit'>Add Todo</button>
-          <button>Clear Completed</button>
          </form>
+        <button>Clear Completed</button>
      {/** TodoList component with props */}
      {/** Form component with props */}
       </div>
