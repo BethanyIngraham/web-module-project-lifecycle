@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import TodoList from './TodoList'
 import Form from './Form'
 
 
@@ -76,18 +77,11 @@ export default class App extends React.Component {
     return (
       <div>
         <div id='error'>{this.state.error}</div>
-        <div id='todo'>
-          <h1>Todo App:</h1>
-          {
-          this.state.todos.reduce((acc, todo) => {
-            if(this.state.displayCompletedTasks || !todo.completed) return acc.concat(
-              <div onClick={this.toggleCompletedStatus(todo.id)} key={todo.id}>{todo.name} {todo.completed ? '✓' : ''}</div>
-            )
-            return acc
-           }, [])
-           // Go over reduce method. Why this and not filter?
-          } 
-        </div>
+        <TodoList
+        todos={this.state.todos}
+        displayCompletedTasks={this.state.displayCompletedTasks}
+        toggleCompletedStatus={this.toggleCompletedStatus}
+        />
        <Form
         handleFormSubmit={this.handleFormSubmit}
         onInputChange={this.onInputChange}
